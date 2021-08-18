@@ -1,7 +1,10 @@
 package prompt
 
 import (
-	"github.com/bchadwic/yo/shared"
+	"bufio"
+	"fmt"
+	"strings"
+
 	"github.com/bchadwic/yo/yo"
 )
 
@@ -19,18 +22,82 @@ type Prompt struct {
 
 func (p *Prompt) Prompt(y *yo.Yo) (string, error) {
 	y.FailureAttempts = 0
-	shared.PromptQuestion(p, y)
-	return shared.ExternalRecieveAnswer(p, y)
+	PromptQuestion(p, y)
+	return ExternalRecieveAnswer(p, y)
 }
 
-func (p *Prompt) GetMessage() string { return p.Message }
+func PromptQuestion(p *Prompt, y *yo.Yo) {
+	message := p.Message
+	var choices string
+	var def string
+	if message == "" {
+		message = "Enter a value"
+	}
+	if d := p.Default; d != "" {
+		def = " [" + d + "]"
+	}
+	if len(p.Choices) > 0 {
+		choices = " (" + strings.Join(p.Choices, ", ") + ")"
+	}
+	fmt.Fprintf(y.Out, message+choices+def+": ")
+}
 
-func (p *Prompt) GetDefault() string { return p.Default }
+func ExternalRecieveAnswer(p *Prompt, y *yo.Yo) (string, error) {
+	s, err := RecieveAnswer(p, y)
+	if y.FailureAttempts >= p.Attempts && p.Attempts != 0 {
+		return "", fmt.Errorf("invalid amount of attempts")
+	}
+	if err != nil {
+		if err.Error() == "enter a valid input" || err.Error() == "enter a choice supplied" {
+			y.FailureAttempts++
+			fmt.Fprint(y.Err, err.Error()+": ")
+			return ExternalRecieveAnswer(p, y)
+		}
+	}
+	return s, err
+}
 
-func (p *Prompt) GetChoices() []string { return p.Choices }
+func RecieveAnswer(p *Prompt, y *yo.Yo) (string, error) {
+	s := bufio.NewScanner(y.In)
+	s.Scan()
+	input := s.Text()
+	orgInput := input
 
-func (p *Prompt) GetAttempts() int { return p.Attempts }
+	// Write a function to compare regardless of case sensitive
+	if !p.CaseSensitive {
+		input = strings.ToLower(input)
+	}
 
-func (p *Prompt) GetValidate() func(s string) bool { return p.Validate }
-
-func (p *Prompt) GetCaseSensitive() bool { return p.CaseSensitive }
+	for _, e := range p.Choices {
+		if p.CaseSensitive {
+			if input == e {
+				return e, nil
+			}
+		} else {
+			if input == strings.ToLower(e) {
+				return e, nil
+			}
+		}
+	}
+	if p.Default != "" {
+		if p.CaseSensitive {
+			if input == p.Default {
+				return p.Default, nil
+			}
+		} else {
+			if input == strings.ToLower(p.Default) {
+				return p.Default, nil
+			}
+		}
+		if input == "" {
+			return p.Default, nil
+		}
+	}
+	if len(p.Choices) > 0 {
+		return "", fmt.Errorf("enter a choice supplied")
+	}
+	if p.Validate != nil && !p.Validate(orgInput) {
+		return "", fmt.Errorf("input is invalid")
+	}
+	return orgInput, nil
+}
