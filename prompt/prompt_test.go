@@ -1,12 +1,5 @@
 package prompt
 
-/*
-select
-checklist
-prompt
-query
-*/
-
 import (
 	"fmt"
 	"testing"
