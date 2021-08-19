@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/bchadwic/yo/prompt"
+	"github.com/bchadwic/yo/pkg/prompt"
 	"github.com/bchadwic/yo/yo"
 )
 
