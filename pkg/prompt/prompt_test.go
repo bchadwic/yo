@@ -79,7 +79,7 @@ func Test_PromptQuestion(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			testYo, _, out, _ := yo.TestYo()
-			PromptQuestion(tt.p, testYo)
+			promptQuery(tt.p, testYo)
 			assert.Equal(t, tt.output, out.String())
 		})
 	}
@@ -251,7 +251,7 @@ func Test_RecieveAnswer(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			testYo, in, _, _ := yo.TestYo()
 			in.WriteString(tt.input)
-			output, err := RecieveAnswer(tt.p, testYo)
+			output, err := recieveAnswer(tt.p, testYo)
 
 			if tt.errWanted {
 				assert.EqualError(t, tt.expectedError, err.Error())
@@ -264,7 +264,7 @@ func Test_RecieveAnswer(t *testing.T) {
 	}
 }
 
-func Test_ExternalRecieveAnswer(t *testing.T) {
+func Test_externalRecieveAnswer(t *testing.T) {
 	tests := []struct {
 		name            string
 		p               *Prompt
@@ -293,7 +293,7 @@ func Test_ExternalRecieveAnswer(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			testYo, _, _, _ := yo.TestYo()
 			testYo.FailureAttempts = tt.FailureAttempts
-			_, err := ExternalRecieveAnswer(tt.p, testYo)
+			_, err := externalRecieveAnswer(tt.p, testYo)
 
 			if tt.errWanted {
 				assert.EqualError(t, tt.expectedError, err.Error())
