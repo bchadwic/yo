@@ -9,19 +9,6 @@ import (
 
 type Multi struct {
 	Message string
-	Save    *escapeKeyValue
-}
-
-type escapeKeyValue struct {
-	escapeSequence byte
-	escapeMessage  string
-}
-
-func EscKeyValue(escapeSequence byte, escapeMessage string) *escapeKeyValue {
-	return &escapeKeyValue{
-		escapeSequence: escapeSequence,
-		escapeMessage:  escapeMessage,
-	}
 }
 
 func (m *Multi) Multi(y *yo.Yo) (string, error) {
@@ -31,15 +18,11 @@ func (m *Multi) Multi(y *yo.Yo) (string, error) {
 
 func multiQuery(m *Multi, y *yo.Yo) {
 	message := m.Message
-	saveKV := m.Save
 
 	if message == "" {
 		message = "Type in a value"
 	}
-	if saveKV == nil {
-		saveKV = EscKeyValue('*', "return (*) to save and quit")
-	}
-	fmt.Fprintf(y.Out, message+"\n"+saveKV.escapeMessage+": \n")
+	fmt.Fprintf(y.Out, message+"\nReturn twice to save and quit: \n\n")
 }
 
 func recieveAnswer(m *Multi, y *yo.Yo) (string, error) {
@@ -48,7 +31,7 @@ func recieveAnswer(m *Multi, y *yo.Yo) (string, error) {
 	var input string
 	i := 0
 	for i < 2 {
-		curr, err := r.ReadString('\x1b')
+		curr, err := r.ReadString('\n')
 		if err != nil {
 			return "", err
 		}
@@ -57,7 +40,5 @@ func recieveAnswer(m *Multi, y *yo.Yo) (string, error) {
 		}
 		input += curr
 	}
-	fmt.Println(input)
-
 	return input, nil
 }

@@ -63,7 +63,6 @@ func recieveAnswer(p *Prompt, y *yo.Yo) (string, error) {
 	input := s.Text()
 	orgInput := input
 
-	// Write a function to compare regardless of case sensitive
 	if !p.CaseSensitive {
 		input = strings.ToLower(input)
 	}
