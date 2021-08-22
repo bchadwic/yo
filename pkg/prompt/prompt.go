@@ -22,11 +22,11 @@ type Prompt struct {
 
 func (p *Prompt) Prompt(y *yo.Yo) (string, error) {
 	y.FailureAttempts = 0
-	PromptQuestion(p, y)
-	return ExternalRecieveAnswer(p, y)
+	outputPrompt(p, y)
+	return inputPrompt(p, y)
 }
 
-func PromptQuestion(p *Prompt, y *yo.Yo) {
+func outputPrompt(p *Prompt, y *yo.Yo) {
 	message := p.Message
 	var choices string
 	var def string
@@ -42,8 +42,8 @@ func PromptQuestion(p *Prompt, y *yo.Yo) {
 	fmt.Fprintf(y.Out, message+choices+def+": ")
 }
 
-func ExternalRecieveAnswer(p *Prompt, y *yo.Yo) (string, error) {
-	s, err := RecieveAnswer(p, y)
+func inputPrompt(p *Prompt, y *yo.Yo) (string, error) {
+	s, err := internalInputPrompt(p, y)
 	if y.FailureAttempts >= p.Attempts && p.Attempts != 0 {
 		return "", fmt.Errorf("invalid amount of attempts")
 	}
@@ -51,19 +51,18 @@ func ExternalRecieveAnswer(p *Prompt, y *yo.Yo) (string, error) {
 		if err.Error() == "enter a valid input" || err.Error() == "enter a choice supplied" {
 			y.FailureAttempts++
 			fmt.Fprint(y.Err, err.Error()+": ")
-			return ExternalRecieveAnswer(p, y)
+			return inputPrompt(p, y)
 		}
 	}
 	return s, err
 }
 
-func RecieveAnswer(p *Prompt, y *yo.Yo) (string, error) {
+func internalInputPrompt(p *Prompt, y *yo.Yo) (string, error) {
 	s := bufio.NewScanner(y.In)
 	s.Scan()
 	input := s.Text()
 	orgInput := input
 
-	// Write a function to compare regardless of case sensitive
 	if !p.CaseSensitive {
 		input = strings.ToLower(input)
 	}

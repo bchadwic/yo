@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 
+	"github.com/bchadwic/yo/pkg/multi"
 	"github.com/bchadwic/yo/pkg/prompt"
 	"github.com/bchadwic/yo/yo"
 )
@@ -30,5 +31,13 @@ func main() {
 	if err != nil {
 		fmt.Println(err.Error())
 	}
-	fmt.Println(input)
+
+	fmt.Println(input + "\n\n")
+	input2, err := (&multi.Multi{
+		Message: "Enter a value yo",
+	}).Multi(yo)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+	fmt.Println("OUTPUT:\n(" + input2 + ")")
 }

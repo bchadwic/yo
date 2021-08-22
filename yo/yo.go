@@ -4,8 +4,8 @@ package yo
 select - menu style prompt that allows users to navigate up and down
 checklist - like select but multiple selected with space
 X prompt - close ended questions (Ex. (Y/N), (Start/Stop))
-query - open ended fill in the blank (Ex. Create a commit message) possible character counter?
-multi - open editor, return file as variable out of function
+X query - open ended fill in the blank (Ex. Create a commit message) possible character counter?
+multi - open editor, text as variable out of function
 slider - move left and right to increase and decrease
 */
 
