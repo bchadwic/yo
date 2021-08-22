@@ -22,11 +22,11 @@ type Prompt struct {
 
 func (p *Prompt) Prompt(y *yo.Yo) (string, error) {
 	y.FailureAttempts = 0
-	promptQuery(p, y)
-	return externalRecieveAnswer(p, y)
+	outputPrompt(p, y)
+	return inputPrompt(p, y)
 }
 
-func promptQuery(p *Prompt, y *yo.Yo) {
+func outputPrompt(p *Prompt, y *yo.Yo) {
 	message := p.Message
 	var choices string
 	var def string
@@ -42,8 +42,8 @@ func promptQuery(p *Prompt, y *yo.Yo) {
 	fmt.Fprintf(y.Out, message+choices+def+": ")
 }
 
-func externalRecieveAnswer(p *Prompt, y *yo.Yo) (string, error) {
-	s, err := recieveAnswer(p, y)
+func inputPrompt(p *Prompt, y *yo.Yo) (string, error) {
+	s, err := internalInputPrompt(p, y)
 	if y.FailureAttempts >= p.Attempts && p.Attempts != 0 {
 		return "", fmt.Errorf("invalid amount of attempts")
 	}
@@ -51,13 +51,13 @@ func externalRecieveAnswer(p *Prompt, y *yo.Yo) (string, error) {
 		if err.Error() == "enter a valid input" || err.Error() == "enter a choice supplied" {
 			y.FailureAttempts++
 			fmt.Fprint(y.Err, err.Error()+": ")
-			return externalRecieveAnswer(p, y)
+			return inputPrompt(p, y)
 		}
 	}
 	return s, err
 }
 
-func recieveAnswer(p *Prompt, y *yo.Yo) (string, error) {
+func internalInputPrompt(p *Prompt, y *yo.Yo) (string, error) {
 	s := bufio.NewScanner(y.In)
 	s.Scan()
 	input := s.Text()

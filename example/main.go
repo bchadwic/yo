@@ -39,5 +39,5 @@ func main() {
 	if err != nil {
 		fmt.Println(err.Error())
 	}
-	fmt.Println("OUTPUT:\n" + input2)
+	fmt.Println("OUTPUT:\n(" + input2 + ")")
 }
