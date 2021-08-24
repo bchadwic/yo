@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
-	"github.com/bchadwic/yo/pkg/multi"
 	"github.com/bchadwic/yo/pkg/prompt"
+	"github.com/bchadwic/yo/pkg/query"
 	"github.com/bchadwic/yo/yo"
 )
 
@@ -33,9 +33,9 @@ func main() {
 	}
 
 	fmt.Println(input + "\n\n")
-	input2, err := (&multi.Multi{
+	input2, err := (&query.Query{
 		Message: "Enter a value yo",
-	}).Multi(yo)
+	}).Query(yo)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
