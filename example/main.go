@@ -1,8 +1,9 @@
 package main
 
 import (
-	"fmt"
-	"os/exec"
+	"github.com/bchadwic/yo/pkg/edit"
+	"github.com/bchadwic/yo/pkg/prompt"
+	"github.com/bchadwic/yo/yo"
 )
 
 func main() {
@@ -37,12 +38,55 @@ func main() {
 	// 	fmt.Println(err.Error())
 	// }
 	// fmt.Println("OUTPUT:\n(" + input2 + ")")
-	cmd := exec.Command("which", "vim")
-	err := cmd.Run()
-	fmt.Println(err)
+	//exec.Command("which", "vim").Stdout =
+	//exec.Cmd.Stdin = ""
+	//yo,_,_,_ := yo.TestYo()
+	//exec.Command("").Output() = yo.Out
+	//fmt.Println(err)
 	// cmd := exec.Command("vim", "test.txt")
 	// cmd.Stdin = os.Stdin
 	// cmd.Stdout = os.Stdout
 	// err := cmd.Run()
 	// fmt.Println(err)
+
+	// os := runtime.GOOS
+	// switch os {
+	// case "windows":
+	// 	fmt.Println("Windows")
+	// case "darwin":
+	// 	fmt.Println("MAC operating system")
+	// case "linux":
+	// 	fmt.Println("Linux")
+	// default:
+	// 	fmt.Printf("%s.\n", os)
+	// }
+	(&edit.Edit{}).Edit(yo.ProdYo())
+	(&prompt.Prompt{
+		Validate: func(s string) bool {
+			return s == "hello"
+		},
+		Attempts: 29,
+	}).Prompt(yo.ProdYo())
+
+	//go launch(&Request{}).onSuccess(func() {}).onFailure(func() {})
+	launch(&Request{}, onsuccess(onfailure))
+}
+
+type Request struct {
+}
+
+func onsuccess(f func()) {}
+
+func onfailure() {}
+
+func launch(r *Request, f func()) *Request {
+	return &Request{}
+}
+
+func (r *Request) onSuccess(validate func()) *Request {
+	return &Request{}
+}
+
+func (r *Request) onFailure(validate func()) *Request {
+	return &Request{}
 }
