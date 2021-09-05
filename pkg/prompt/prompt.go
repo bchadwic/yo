@@ -70,7 +70,6 @@ func internalInputPrompt(p *Prompt, y *yo.Yo) (string, error) {
 	if p.Validate != nil && p.Validate(orgInput) {
 		return orgInput, nil
 	}
-
 	for _, e := range p.Choices {
 		if p.CaseSensitive {
 			if input == e {
@@ -98,9 +97,6 @@ func internalInputPrompt(p *Prompt, y *yo.Yo) (string, error) {
 	}
 	if len(p.Choices) > 0 {
 		return "", fmt.Errorf(msg.InvalidChoice)
-	}
-	if p.Validate != nil && !p.Validate(orgInput) {
-		return "", fmt.Errorf(msg.InvalidValue)
 	}
 	return orgInput, nil
 }
