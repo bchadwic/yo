@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"testing"
 
+	"github.com/bchadwic/yo/internal/msg"
 	"github.com/bchadwic/yo/yo"
 	"github.com/stretchr/testify/assert"
 )
@@ -18,7 +19,7 @@ func Test_PromptQuestion(t *testing.T) {
 		{
 			name:   "empty prompt",
 			p:      &Prompt{},
-			output: "Enter a value: ",
+			output: msg.EnterValue + ": ",
 		},
 		{
 			name: "messaged prompt",
@@ -57,14 +58,14 @@ func Test_PromptQuestion(t *testing.T) {
 			p: &Prompt{
 				Choices: []string{"Stop", "Continue"},
 			},
-			output: "Enter a value (Stop, Continue): ",
+			output: msg.EnterValue + " (Stop, Continue): ",
 		},
 		{
 			name: "empty message with default prompt",
 			p: &Prompt{
 				Default: "Quit",
 			},
-			output: "Enter a value [Quit]: ",
+			output: msg.EnterValue + " [Quit]: ",
 		},
 		{
 			name: "empty message with default and choices prompt",
@@ -72,7 +73,7 @@ func Test_PromptQuestion(t *testing.T) {
 				Choices: []string{"Stop", "Continue"},
 				Default: "Quit",
 			},
-			output: "Enter a value (Stop, Continue) [Quit]: ",
+			output: msg.EnterValue + " (Stop, Continue) [Quit]: ",
 		},
 	}
 
@@ -129,6 +130,17 @@ func Test_RecieveAnswer(t *testing.T) {
 				Validate: func(s string) bool {
 					return s == "no"
 				},
+			},
+			input:  "no",
+			output: "no",
+		},
+		{
+			name: "valid validation test with choices",
+			p: &Prompt{
+				Validate: func(s string) bool {
+					return s == "no"
+				},
+				Choices: []string{"not no", "anything other than no"},
 			},
 			input:  "no",
 			output: "no",

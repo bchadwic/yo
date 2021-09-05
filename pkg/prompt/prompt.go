@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/bchadwic/yo/internal/msg"
 	"github.com/bchadwic/yo/yo"
 )
 
@@ -31,7 +32,7 @@ func outputPrompt(p *Prompt, y *yo.Yo) {
 	var choices string
 	var def string
 	if message == "" {
-		message = "Enter a value"
+		message = msg.EnterValue
 	}
 	if d := p.Default; d != "" {
 		def = " [" + d + "]"
@@ -48,9 +49,9 @@ func inputPrompt(p *Prompt, y *yo.Yo) (string, error) {
 		return "", fmt.Errorf("invalid amount of attempts")
 	}
 	if err != nil {
-		if err.Error() == "enter a valid input" || err.Error() == "enter a choice supplied" {
+		if errmsg := err.Error(); errmsg == msg.InvalidValue || errmsg == msg.InvalidChoice {
 			y.FailureAttempts++
-			fmt.Fprint(y.Err, err.Error()+": ")
+			fmt.Fprint(y.Err, errmsg+": ")
 			return inputPrompt(p, y)
 		}
 	}
@@ -65,6 +66,9 @@ func internalInputPrompt(p *Prompt, y *yo.Yo) (string, error) {
 
 	if !p.CaseSensitive {
 		input = strings.ToLower(input)
+	}
+	if p.Validate != nil && p.Validate(orgInput) {
+		return orgInput, nil
 	}
 
 	for _, e := range p.Choices {
@@ -93,10 +97,10 @@ func internalInputPrompt(p *Prompt, y *yo.Yo) (string, error) {
 		}
 	}
 	if len(p.Choices) > 0 {
-		return "", fmt.Errorf("enter a choice supplied")
+		return "", fmt.Errorf(msg.InvalidChoice)
 	}
 	if p.Validate != nil && !p.Validate(orgInput) {
-		return "", fmt.Errorf("input is invalid")
+		return "", fmt.Errorf(msg.InvalidValue)
 	}
 	return orgInput, nil
 }

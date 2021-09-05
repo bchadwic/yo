@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 
+	"github.com/bchadwic/yo/internal/msg"
 	"github.com/bchadwic/yo/yo"
 )
 
@@ -20,9 +21,9 @@ func outputQuery(q *Query, y *yo.Yo) {
 	message := q.Message
 
 	if message == "" {
-		message = "Type in a value"
+		message = msg.EnterValue
 	}
-	fmt.Fprintf(y.Out, message+"\nReturn twice to save and quit: \n\n")
+	fmt.Fprintf(y.Out, message+"\n"+msg.ReturnValue+": \n\n")
 }
 
 func inputQuery(q *Query, y *yo.Yo) (string, error) {

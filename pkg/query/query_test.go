@@ -3,6 +3,7 @@ package query
 import (
 	"testing"
 
+	"github.com/bchadwic/yo/internal/msg"
 	"github.com/bchadwic/yo/yo"
 	"github.com/stretchr/testify/assert"
 )
@@ -16,14 +17,14 @@ func Test_multiQuery(t *testing.T) {
 		{
 			name:   "empty multi",
 			q:      &Query{},
-			output: "Type in a value\nReturn twice to save and quit: \n\n",
+			output: msg.EnterValue + "\n" + msg.ReturnValue + ": \n\n",
 		},
 		{
 			name: "empty multi",
 			q: &Query{
 				Message: "Type out the message you would like to send",
 			},
-			output: "Type out the message you would like to send\nReturn twice to save and quit: \n\n",
+			output: "Type out the message you would like to send\n" + msg.ReturnValue + ": \n\n",
 		},
 	}
 
