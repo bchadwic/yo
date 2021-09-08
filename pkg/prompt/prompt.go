@@ -46,7 +46,7 @@ func outputPrompt(p *Prompt, y *yo.Yo) {
 func inputPrompt(p *Prompt, y *yo.Yo) (string, error) {
 	s, err := internalInputPrompt(p, y)
 	if y.FailureAttempts >= p.Attempts && p.Attempts != 0 {
-		return "", fmt.Errorf("invalid amount of attempts")
+		return "", fmt.Errorf(msg.InvalidAttempts)
 	}
 	if err != nil {
 		if errmsg := err.Error(); errmsg == msg.InvalidValue || errmsg == msg.InvalidChoice {
