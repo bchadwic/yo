@@ -161,7 +161,7 @@ func Test_RecieveAnswer(t *testing.T) {
 			},
 			input:         "",
 			errWanted:     true,
-			expectedError: fmt.Errorf("enter a choice supplied"),
+			expectedError: fmt.Errorf(msg.InvalidChoice),
 		},
 		{
 			name: "invalid choices test",
@@ -170,7 +170,7 @@ func Test_RecieveAnswer(t *testing.T) {
 			},
 			input:         "sprite",
 			errWanted:     true,
-			expectedError: fmt.Errorf("enter a choice supplied"),
+			expectedError: fmt.Errorf(msg.InvalidChoice),
 		},
 		{
 			name: "valid default test",
@@ -215,7 +215,7 @@ func Test_RecieveAnswer(t *testing.T) {
 			input:         "ConTiNUe",
 			output:        "",
 			errWanted:     true,
-			expectedError: fmt.Errorf("enter a choice supplied"),
+			expectedError: fmt.Errorf(msg.InvalidChoice),
 		},
 		{
 			name: "valid default choices case sensitive test 1",
@@ -236,7 +236,7 @@ func Test_RecieveAnswer(t *testing.T) {
 			input:         "qUiT",
 			output:        "",
 			errWanted:     true,
-			expectedError: fmt.Errorf("enter a choice supplied"),
+			expectedError: fmt.Errorf(msg.InvalidChoice),
 		},
 		{
 			name: "valid default choices case sensitive test 3",

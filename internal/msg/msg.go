@@ -7,5 +7,5 @@ const (
 
 	// error
 	InvalidValue  = "input is invalid"
-	InvalidChoice = "enter a choice supplied"
+	InvalidChoice = "enter a valid choice"
 )
