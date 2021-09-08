@@ -25,7 +25,7 @@ type Yo struct {
 	FailureAttempts int
 }
 
-func ProdYo() *Yo {
+func Yoyo() *Yo {
 	return &Yo{
 		In:  os.Stdin,
 		Out: os.Stdout,
