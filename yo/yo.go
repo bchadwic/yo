@@ -20,9 +20,6 @@ type Yo struct {
 	In  io.ReadCloser
 	Out io.Writer
 	Err io.Writer
-
-	// validation
-	FailureAttempts int
 }
 
 func Yoyo() *Yo {
