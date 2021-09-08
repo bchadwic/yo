@@ -275,43 +275,40 @@ func Test_internalInputPrompt(t *testing.T) {
 	}
 }
 
-func Test_inputPrompt(t *testing.T) {
+func Test_Prompt(t *testing.T) {
 	tests := []struct {
-		name            string
-		p               *Prompt
-		FailureAttempts int
-		errWanted       bool
-		expectedError   error
+		name          string
+		p             *Prompt
+		input         string
+		output        string
+		errWanted     bool
+		expectedError error
 	}{
 		{
 			name: "invalid amount of attempts",
 			p: &Prompt{
 				Attempts: 3,
+				Choices:  []string{"continue"},
 			},
-			FailureAttempts: 3,
-			errWanted:       true,
-			expectedError:   fmt.Errorf("invalid amount of attempts"),
-		},
-		{
-			name: "valid amount of attempts",
-			p: &Prompt{
-				Attempts: 3,
-			},
-			FailureAttempts: 2,
+			input:         "pause\nstop\nwait",
+			output:        "",
+			errWanted:     true,
+			expectedError: fmt.Errorf(msg.InvalidAttempts),
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			testYo, _, _, _ := yo.TestYo()
-			testYo.FailureAttempts = tt.FailureAttempts
-			_, err := inputPrompt(tt.p, testYo)
+			testYo, in, _, _ := yo.TestYo()
+			in.WriteString(tt.input)
+			output, err := inputPrompt(tt.p, testYo)
 
 			if tt.errWanted {
 				assert.EqualError(t, tt.expectedError, err.Error())
+				assert.Equal(t, tt.output, "")
 			} else {
 				assert.NoError(t, err)
 			}
+			assert.Equal(t, tt.output, output)
 		})
 	}
-
 }
