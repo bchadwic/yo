@@ -1,4 +1,4 @@
-package reader
+package read
 
 import (
 	"fmt"
@@ -8,24 +8,24 @@ import (
 	"github.com/bchadwic/yo/yo"
 )
 
-type Reader struct {
+type Read struct {
 	Path    string
 	Preface string
 	Output  bool
 }
 
-func (r *Reader) Read(y *yo.Yo) (string, error) {
+func (r *Read) Read(y *yo.Yo) (string, error) {
 	outputRead(r, y)
 	return inputRead(r, y)
 }
 
-func outputRead(r *Reader, y *yo.Yo) {
+func outputRead(r *Read, y *yo.Yo) {
 	if r.Preface != "" {
 		fmt.Fprintf(y.Out, "%s\n", r.Preface)
 	}
 }
 
-func inputRead(r *Reader, y *yo.Yo) (string, error) {
+func inputRead(r *Read, y *yo.Yo) (string, error) {
 	f, err := os.ReadFile(r.Path)
 	if err != nil {
 		if r.Output {
