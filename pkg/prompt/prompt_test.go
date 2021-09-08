@@ -9,8 +9,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func Test_PromptQuestion(t *testing.T) {
-
+func Test_outputPrompt(t *testing.T) {
 	tests := []struct {
 		name   string
 		p      *Prompt
@@ -86,7 +85,7 @@ func Test_PromptQuestion(t *testing.T) {
 	}
 }
 
-func Test_RecieveAnswer(t *testing.T) {
+func Test_internalInputPrompt(t *testing.T) {
 	tests := []struct {
 		name          string
 		p             *Prompt
@@ -276,7 +275,7 @@ func Test_RecieveAnswer(t *testing.T) {
 	}
 }
 
-func Test_externalRecieveAnswer(t *testing.T) {
+func Test_inputPrompt(t *testing.T) {
 	tests := []struct {
 		name            string
 		p               *Prompt

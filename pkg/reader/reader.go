@@ -30,8 +30,8 @@ func inputRead(r *Reader, y *yo.Yo) (string, error) {
 	if err != nil {
 		if r.Output {
 			fmt.Fprintf(y.Out, msg.InvalidPath+"\n", r.Path)
-			return "", err
 		}
+		return "", fmt.Errorf(msg.InvalidPath, r.Path)
 	}
 	sf := string(f)
 	if r.Output {

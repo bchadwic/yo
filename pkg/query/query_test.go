@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func Test_multiQuery(t *testing.T) {
+func Test_outputQuery(t *testing.T) {
 	tests := []struct {
 		name   string
 		q      *Query
@@ -37,7 +37,7 @@ func Test_multiQuery(t *testing.T) {
 	}
 }
 
-func Test_recieveAnswer(t *testing.T) {
+func Test_inputQuery(t *testing.T) {
 	tests := []struct {
 		name        string
 		q           *Query
