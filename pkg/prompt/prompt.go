@@ -22,7 +22,6 @@ type Prompt struct {
 }
 
 func (p *Prompt) Prompt(y *yo.Yo) (string, error) {
-	y.FailureAttempts = 0
 	outputPrompt(p, y)
 	return inputPrompt(p, y)
 }
@@ -44,18 +43,20 @@ func outputPrompt(p *Prompt, y *yo.Yo) {
 }
 
 func inputPrompt(p *Prompt, y *yo.Yo) (string, error) {
-	s, err := internalInputPrompt(p, y)
-	if y.FailureAttempts >= p.Attempts && p.Attempts != 0 {
-		return "", fmt.Errorf("invalid amount of attempts")
-	}
-	if err != nil {
-		if errmsg := err.Error(); errmsg == msg.InvalidValue || errmsg == msg.InvalidChoice {
-			y.FailureAttempts++
-			fmt.Fprint(y.Err, errmsg+": ")
-			return inputPrompt(p, y)
+	attempts := 0
+	for attempts < p.Attempts || p.Attempts == 0 {
+		s, err := internalInputPrompt(p, y)
+		if err != nil {
+			attempts++
+			if attempts >= p.Attempts {
+				break
+			}
+			fmt.Fprint(y.Err, err.Error()+": ")
+		} else {
+			return s, nil
 		}
 	}
-	return s, err
+	return "", fmt.Errorf(msg.InvalidAttempts)
 }
 
 func internalInputPrompt(p *Prompt, y *yo.Yo) (string, error) {
