@@ -1,4 +1,4 @@
-package reader
+package read
 
 import (
 	"fmt"
@@ -13,20 +13,20 @@ func Test_outputRead(t *testing.T) {
 
 	tests := []struct {
 		name   string
-		r      *Reader
+		r      *Read
 		output string
 	}{
 		{
 			name:   "empty",
-			r:      &Reader{},
+			r:      &Read{},
 			output: "",
 		},
 		{
 			name: "preface",
-			r: &Reader{
-				Preface: "Reader be reading",
+			r: &Read{
+				Preface: "Read be reading",
 			},
-			output: "Reader be reading\n",
+			output: "Read be reading\n",
 		},
 	}
 	for _, tt := range tests {
@@ -41,14 +41,14 @@ func Test_outputRead(t *testing.T) {
 func Test_inputRead(t *testing.T) {
 	tests := []struct {
 		name          string
-		r             *Reader
+		r             *Read
 		output        string
 		errWanted     bool
 		expectedError error
 	}{
 		{
 			name: "basic",
-			r: &Reader{
+			r: &Read{
 				Path: "test.txt",
 			},
 			output:    "hello\nworld\nthis is a test",
@@ -56,7 +56,7 @@ func Test_inputRead(t *testing.T) {
 		},
 		{
 			name: "basic invalid",
-			r: &Reader{
+			r: &Read{
 				Path: "test.tx",
 			},
 			output:        "",
@@ -65,7 +65,7 @@ func Test_inputRead(t *testing.T) {
 		},
 		{
 			name: "basic",
-			r: &Reader{
+			r: &Read{
 				Path:   "test.txt",
 				Output: true,
 			},
@@ -74,7 +74,7 @@ func Test_inputRead(t *testing.T) {
 		},
 		{
 			name: "basic invalid",
-			r: &Reader{
+			r: &Read{
 				Path:   "test.tx",
 				Output: true,
 			},
@@ -100,7 +100,7 @@ func Test_inputRead(t *testing.T) {
 
 func Test_Read(t *testing.T) {
 	testYo, _, out, _ := yo.TestYo()
-	_, err := (&Reader{
+	_, err := (&Read{
 		Preface: "reading test.txt",
 		Path:    "test.txt",
 		Output:  true,
