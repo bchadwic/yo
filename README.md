@@ -4,7 +4,7 @@ yo is a simple io library
 ## Usage
 
 ```go
-yo := yo.Yoyo()
+yo := yo.ProdYo()
 
 input, err := (&prompt.Prompt{
 		Message:       "What is your favorite color?",

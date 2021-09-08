@@ -8,8 +8,8 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func Test_Yoyo(t *testing.T) {
-	yo := Yoyo()
+func Test_ProdYo(t *testing.T) {
+	yo := ProdYo()
 	fmt.Fprintf(yo.Out, "Hello world")
 	yo.In.Read([]byte("Hello world, the sequel"))
 
