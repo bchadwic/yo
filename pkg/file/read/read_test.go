@@ -10,7 +10,6 @@ import (
 )
 
 func Test_outputRead(t *testing.T) {
-
 	tests := []struct {
 		name   string
 		r      *Read
@@ -49,7 +48,7 @@ func Test_inputRead(t *testing.T) {
 		{
 			name: "basic",
 			r: &Read{
-				Path: "test.txt",
+				File: "test.txt",
 			},
 			output:    "hello\nworld\nthis is a test",
 			errWanted: false,
@@ -57,16 +56,16 @@ func Test_inputRead(t *testing.T) {
 		{
 			name: "basic invalid",
 			r: &Read{
-				Path: "test.tx",
+				File: "test.tx",
 			},
 			output:        "",
 			errWanted:     true,
-			expectedError: fmt.Errorf(msg.InvalidPath, "test.tx"),
+			expectedError: fmt.Errorf(msg.InvalidFile, "test.tx"),
 		},
 		{
 			name: "basic",
 			r: &Read{
-				Path:   "test.txt",
+				File:   "test.txt",
 				Output: true,
 			},
 			output:    "hello\nworld\nthis is a test",
@@ -75,12 +74,12 @@ func Test_inputRead(t *testing.T) {
 		{
 			name: "basic invalid",
 			r: &Read{
-				Path:   "test.tx",
+				File:   "test.tx",
 				Output: true,
 			},
 			output:        "",
 			errWanted:     true,
-			expectedError: fmt.Errorf(msg.InvalidPath, "test.tx"),
+			expectedError: fmt.Errorf(msg.InvalidFile, "test.tx"),
 		},
 	}
 	for _, tt := range tests {
@@ -102,7 +101,7 @@ func Test_Read(t *testing.T) {
 	testYo, _, out, _ := yo.TestYo()
 	_, err := (&Read{
 		Preface: "reading test.txt",
-		Path:    "test.txt",
+		File:    "test.txt",
 		Output:  true,
 	}).Read(testYo)
 	assert.NoError(t, err)
