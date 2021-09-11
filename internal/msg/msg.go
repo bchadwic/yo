@@ -6,8 +6,8 @@ const (
 	ReturnValue = "return twice to save and quit"
 
 	// error
-	InvalidValue    = "input is invalid"
 	InvalidChoice   = "enter a choice supplied"
-	InvalidPath     = "unable to find path %s"
+	InvalidValue    = "invalid input"
 	InvalidAttempts = "invalid amount of attempts"
+	InvalidPath     = "invalid path %s"
 )
