@@ -131,6 +131,27 @@ func Test_inputWrite(t *testing.T) {
 	}
 }
 
+func Test_Write(t *testing.T) {
+	yo, _, _, _ := yo.TestYo()
+	err := (&Write{}).Write(yo)
+	assert.EqualError(t, fmt.Errorf(msg.InvalidFile, ""), err.Error())
+	err = (&Write{
+		File: file,
+		Type: OVERWRITE,
+	}).Write(yo)
+	assert.EqualError(t, fmt.Errorf(msg.InvalidType), err.Error())
+	err = (&Write{
+		File: file,
+		Type: CREATE,
+	}).Write(yo)
+	assert.NoError(t, err)
+	err = (&Write{
+		File: file,
+	}).Write(yo)
+	assert.EqualError(t, fmt.Errorf(msg.InvalidType), err.Error())
+	os.Remove(file)
+}
+
 func fileFound() bool {
 	_, err := os.Stat(file)
 	return err == nil
