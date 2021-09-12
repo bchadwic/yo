@@ -48,7 +48,7 @@ func inputPrompt(p *Prompt, y *yo.Yo) (string, error) {
 		s, err := internalInputPrompt(p, y)
 		if err != nil {
 			attempts++
-			if attempts >= p.Attempts {
+			if attempts >= p.Attempts && p.Attempts != 0 {
 				break
 			}
 			fmt.Fprint(y.Err, err.Error()+": ")
@@ -63,6 +63,9 @@ func internalInputPrompt(p *Prompt, y *yo.Yo) (string, error) {
 	s := bufio.NewScanner(y.In)
 	s.Scan()
 	input := s.Text()
+	if input == "" && p.Default != "" {
+		input = p.Default
+	}
 	orgInput := input
 
 	if !p.CaseSensitive {
@@ -92,9 +95,6 @@ func internalInputPrompt(p *Prompt, y *yo.Yo) (string, error) {
 			if input == strings.ToLower(p.Default) {
 				return p.Default, nil
 			}
-		}
-		if input == "" {
-			return p.Default, nil
 		}
 	}
 	if len(p.Choices) > 0 {

@@ -124,6 +124,17 @@ func Test_internalInputPrompt(t *testing.T) {
 			expectedError: fmt.Errorf(msg.InvalidValue),
 		},
 		{
+			name: "validation test with default",
+			p: &Prompt{
+				Default: "no",
+				Validate: func(s string) bool {
+					return s == "no"
+				},
+			},
+			input:  "",
+			output: "no",
+		},
+		{
 			name: "valid validation test",
 			p: &Prompt{
 				Validate: func(s string) bool {
