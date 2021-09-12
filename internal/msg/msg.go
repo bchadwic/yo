@@ -6,11 +6,8 @@ const (
 	ReturnValue = "return twice to save and quit"
 
 	// error
-	InvalidChoice     = "enter a choice supplied"
-	InvalidValue      = "invalid input"
-	InvalidAttempts   = "invalid amount of attempts"
-	InvalidPath       = "invalid path %s"
-	InvalidFile       = "invalid file name %s"
-	InvalidType       = "invalid modify type"
-	InvalidPermission = "invalid permission"
+	InvalidValue    = "input is invalid"
+	InvalidChoice   = "enter a choice supplied"
+	InvalidPath     = "unable to find path %s"
+	InvalidAttempts = "invalid amount of attempts"
 )

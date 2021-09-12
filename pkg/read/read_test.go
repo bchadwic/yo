@@ -2,30 +2,15 @@ package read
 
 import (
 	"fmt"
-	"os"
 	"testing"
 
 	"github.com/bchadwic/yo/internal/msg"
-	"github.com/bchadwic/yo/pkg/file/write"
 	"github.com/bchadwic/yo/yo"
 	"github.com/stretchr/testify/assert"
 )
 
-const file = "test"
-
-func init() {
-	err := (&write.Write{
-		File:       file,
-		Type:       write.CREATE,
-		Permission: 0644,
-		Text:       "hello\nworld\nthis is a test",
-	}).Write(yo.Yoyo())
-	if err != nil {
-		panic(err)
-	}
-}
-
 func Test_outputRead(t *testing.T) {
+
 	tests := []struct {
 		name   string
 		r      *Read
@@ -64,7 +49,7 @@ func Test_inputRead(t *testing.T) {
 		{
 			name: "basic",
 			r: &Read{
-				File: file,
+				Path: "test.txt",
 			},
 			output:    "hello\nworld\nthis is a test",
 			errWanted: false,
@@ -72,11 +57,30 @@ func Test_inputRead(t *testing.T) {
 		{
 			name: "basic invalid",
 			r: &Read{
-				File: "testt",
+				Path: "test.tx",
 			},
 			output:        "",
 			errWanted:     true,
-			expectedError: fmt.Errorf(msg.InvalidFile, "testt"),
+			expectedError: fmt.Errorf(msg.InvalidPath, "test.tx"),
+		},
+		{
+			name: "basic",
+			r: &Read{
+				Path:   "test.txt",
+				Output: true,
+			},
+			output:    "hello\nworld\nthis is a test",
+			errWanted: false,
+		},
+		{
+			name: "basic invalid",
+			r: &Read{
+				Path:   "test.tx",
+				Output: true,
+			},
+			output:        "",
+			errWanted:     true,
+			expectedError: fmt.Errorf(msg.InvalidPath, "test.tx"),
 		},
 	}
 	for _, tt := range tests {
@@ -98,10 +102,9 @@ func Test_Read(t *testing.T) {
 	testYo, _, out, _ := yo.TestYo()
 	_, err := (&Read{
 		Preface: "reading test.txt",
-		File:    file,
+		Path:    "test.txt",
 		Output:  true,
 	}).Read(testYo)
 	assert.NoError(t, err)
 	assert.Equal(t, "reading test.txt\nhello\nworld\nthis is a test\n", out.String())
-	os.Remove(file)
 }

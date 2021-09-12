@@ -9,7 +9,7 @@ import (
 )
 
 type Read struct {
-	File    string
+	Path    string
 	Preface string
 	Output  bool
 }
@@ -26,12 +26,12 @@ func outputRead(r *Read, y *yo.Yo) {
 }
 
 func inputRead(r *Read, y *yo.Yo) (string, error) {
-	f, err := os.ReadFile(r.File)
+	f, err := os.ReadFile(r.Path)
 	if err != nil {
 		if r.Output {
-			fmt.Fprintf(y.Out, msg.InvalidFile+"\n", r.File)
+			fmt.Fprintf(y.Out, msg.InvalidPath+"\n", r.Path)
 		}
-		return "", fmt.Errorf(msg.InvalidFile, r.File)
+		return "", fmt.Errorf(msg.InvalidPath, r.Path)
 	}
 	sf := string(f)
 	if r.Output {

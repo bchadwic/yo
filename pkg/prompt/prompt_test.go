@@ -110,7 +110,7 @@ func Test_internalInputPrompt(t *testing.T) {
 			},
 			input:         "yes",
 			errWanted:     true,
-			expectedError: fmt.Errorf(msg.InvalidValue),
+			expectedError: fmt.Errorf("input is invalid"),
 		},
 		{
 			name: "invalid validation test",
@@ -121,7 +121,7 @@ func Test_internalInputPrompt(t *testing.T) {
 			},
 			input:         "yes",
 			errWanted:     true,
-			expectedError: fmt.Errorf(msg.InvalidValue),
+			expectedError: fmt.Errorf("input is invalid"),
 		},
 		{
 			name: "valid validation test",
