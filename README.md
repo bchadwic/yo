@@ -18,7 +18,6 @@ func main() {
 		Validate: func(s string) bool {
 			return !strings.ContainsRune(s, ' ')
 		},
-		Attempts: 0,
 	}).Prompt(yo)
 	check(err)
 
