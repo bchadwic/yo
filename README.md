@@ -13,7 +13,7 @@ func check(err error) {
 func main() {
 	yo := yo.Yoyo()
 	fileName, err := (&prompt.Prompt{
-		Message: "Type the name of the file you want to make",
+		Message: "Type the name of the file you want to create",
 		Default: "temp",
 		Validate: func(s string) bool {
 			return !strings.ContainsRune(s, ' ')
@@ -49,7 +49,7 @@ func main() {
 ```
 
 ```
-Type the name of the file you want to make [temp]: 
+Type the name of the file you want to create [temp]:
 Enter the contents of the new file 'temp'
 return twice to save and quit: 
 
