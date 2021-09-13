@@ -44,5 +44,8 @@ func inputQuery(q *Query, y *yo.Yo) (string, error) {
 		}
 
 	}
-	return input[:len(input)-2], nil
+	if len(input) < 3 {
+		return input[:len(input)-2], nil
+	}
+	return input[:len(input)-3], nil
 }

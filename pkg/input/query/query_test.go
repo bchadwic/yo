@@ -53,17 +53,17 @@ func Test_inputQuery(t *testing.T) {
 		},
 		{
 			name:   "single line input",
-			input:  "hi\n\n",
+			input:  "hi\n\n\n",
 			output: "hi",
 		},
 		{
 			name:   "double line input",
-			input:  "hi\nhello\n\n",
+			input:  "hi\nhello\n\n\n",
 			output: "hi\nhello",
 		},
 		{
 			name:   "tab input",
-			input:  "hello \tworld\n\n",
+			input:  "hello \tworld\n\n\n",
 			output: "hello \tworld",
 		},
 	}
