@@ -42,7 +42,7 @@ func main() {
 	}).Read(yo)
 	check(err)
 	if fileContents == readContents {
-		fmt.Println("file contents matched read contents")
+		fmt.Println("File contents matched read contents")
 	}
 	os.Remove(fileName)
 }
@@ -64,5 +64,5 @@ TODO:
 - Create a better README
 ---
 Reading contents from temp
-file contents matched read contents
+File contents matched read contents
 ```
